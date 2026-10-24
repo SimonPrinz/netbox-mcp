@@ -5,6 +5,7 @@
  */
 import { randomUUID, timingSafeEqual } from "node:crypto";
 import { createServer, type IncomingMessage, type ServerResponse, type Server } from "node:http";
+import { createRequire } from "node:module";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
 import { isInitializeRequest } from "@modelcontextprotocol/sdk/types.js";
@@ -15,8 +16,19 @@ import { registerResources } from "./resources.js";
 import { registerTools } from "./tools.js";
 
 export const SERVER_NAME = "netbox-mcp";
-export const SERVER_VERSION = "0.1.0";
+export const SERVER_VERSION = readPackageVersion();
 const MAX_BODY_BYTES = 4 * 1024 * 1024;
+
+/** Version from package.json so it tracks release-please bumps. */
+function readPackageVersion(): string {
+  try {
+    const require = createRequire(import.meta.url);
+    const pkg = require("../package.json") as { version?: string };
+    return pkg.version ?? "0.0.0";
+  } catch {
+    return "0.0.0";
+  }
+}
 
 export interface ServerContext {
   config: Config;

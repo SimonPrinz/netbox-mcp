@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.1.0](https://github.com/SimonPrinz/netbox-mcp/compare/v1.0.0...v1.1.0) (2026-10-24)
+
+
+### Features
+
+* **docker:** build and publish a ready-to-run image to GHCR ([d384f1f](https://github.com/SimonPrinz/netbox-mcp/commit/d384f1ff87c90162794769aed00a1911de3794d5))
+
+
+### Bug Fixes
+
+* report the server version from package.json ([3c95847](https://github.com/SimonPrinz/netbox-mcp/commit/3c9584795013a40869a0c2ffa063fa4357c188c0))
+
 ## [1.0.0](https://github.com/SimonPrinz/netbox-mcp/compare/v0.1.0...v1.0.0) (2026-10-24)
 
 

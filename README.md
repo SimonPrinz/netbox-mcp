@@ -56,6 +56,22 @@ The server prints the listen URL and exposes a health check at `/healthz`:
 curl http://127.0.0.1:3000/healthz
 ```
 
+## Docker
+
+A ready-to-run image is published to GitHub Container Registry:
+
+```bash
+docker run --rm -p 3000:3000 \
+  -e NETBOX_URL="https://netbox.example.com" \
+  -e NETBOX_TOKEN="0123456789abcdef0123456789abcdef01234567" \
+  ghcr.io/simonprinz/netbox-mcp
+```
+
+Tags: `latest` (newest release), `:<version>` (e.g. `:1.0.0`) and `:edge`
+(latest `main`). The image binds `0.0.0.0` so the port is reachable from outside
+the container; when exposing it beyond localhost, also set `MCP_AUTH_TOKEN` (and
+`MCP_ALLOWED_HOSTS`). All [Configuration](#configuration) variables apply.
+
 ## Configuration
 
 All configuration is via environment variables.
@@ -232,4 +248,7 @@ create → review → merge → revert flow.
   release PR; merging it tags a release, updates `package.json` and publishes a
   GitHub Release with generated notes. When a release is created, a follow-up job
   publishes the package to the GitHub npm registry (`@simonprinz/netbox-mcp`)
-  using the workflow's `GITHUB_TOKEN`.
+  using the workflow's `GITHUB_TOKEN`. The same run also builds and pushes the
+  Docker image (`:<version>` and `:latest`).
+- **`.github/workflows/docker-edge.yml`** — on every push to `main`: builds and
+  pushes a multi-arch (`amd64`/`arm64`) `:edge` image to `ghcr.io`.

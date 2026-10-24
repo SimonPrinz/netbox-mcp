@@ -1,6 +1,6 @@
 {
   "name": "@simonprinz/netbox-mcp",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Model Context Protocol (MCP) server exposing the NetBox REST API over Streamable HTTP.",
   "type": "module",
   "engines": {

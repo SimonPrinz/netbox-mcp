@@ -252,3 +252,11 @@ create → review → merge → revert flow.
   Docker image (`:<version>` and `:latest`).
 - **`.github/workflows/docker-edge.yml`** — on every push to `main`: builds and
   pushes a multi-arch (`amd64`/`arm64`) `:edge` image to `ghcr.io`.
+- **`.github/workflows/version-check.yml`** — nightly at 02:00 UTC (and on
+  `workflow_dispatch`): downloads the OpenAPI spec from the configured NetBox
+  instance (`/api/schema/`, host in the `NETBOX_HOST` secret), compares it with
+  the committed `netbox-openapi.yaml`, and opens or updates a
+  `chore/netbox-openapi-update` pull request when a newer version is available.
+  It authenticates with a GitHub App (`APP_CLIENT_ID` variable + `APP_PRIVATE_KEY`
+  secret) so the `pull_request` CI checks run automatically; a stale PR is
+  closed once the committed spec is current again.

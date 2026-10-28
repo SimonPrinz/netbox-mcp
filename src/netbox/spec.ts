@@ -227,22 +227,16 @@ function buildAliases(resources: Map<string, ResourceEntry>): Map<string, string
   return aliases;
 }
 
-const SPEC_FILENAMES = [
-  "NetBox REST API (4.7).yaml",
-  "netbox-openapi.yaml",
-  "openapi.yaml",
-];
+const SPEC_FILENAME = "netbox-openapi.yaml";
 
 /** Locate the OpenAPI spec, honoring an explicit override first. */
 export function resolveSpecPath(config: Pick<Config, "specPath">): string {
   const candidates: string[] = [];
   if (config.specPath) candidates.push(resolve(config.specPath));
-  for (const filename of SPEC_FILENAMES) {
-    candidates.push(join(__dirname, "..", "spec", filename));
-    candidates.push(join(process.cwd(), filename));
-    candidates.push(join(__dirname, "..", "..", filename));
-    candidates.push(join(__dirname, "..", filename));
-  }
+  candidates.push(join(__dirname, "..", "spec", SPEC_FILENAME));
+  candidates.push(join(process.cwd(), SPEC_FILENAME));
+  candidates.push(join(__dirname, "..", "..", SPEC_FILENAME));
+  candidates.push(join(__dirname, "..", SPEC_FILENAME));
   for (const candidate of candidates) {
     if (existsSync(candidate)) return candidate;
   }

@@ -1,6 +1,6 @@
 // Copies the bundled OpenAPI specification into the build output so the
 // compiled server can locate it at runtime.
-import { copyFileSync, existsSync, mkdirSync } from "node:fs";
+import { copyFileSync, mkdirSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -8,10 +8,8 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, "..");
 const outDir = join(root, "build", "spec");
 
-const candidates = ["NetBox REST API (4.7).yaml", "netbox-openapi.yaml", "openapi.yaml"];
+const source = join(root, "netbox-openapi.yaml");
 const target = join(outDir, "netbox-openapi.yaml");
-
-const source = candidates.map((name) => join(root, name)).find((path) => existsSync(path));
 
 if (!source) {
   console.warn(

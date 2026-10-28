@@ -4,6 +4,20 @@
  */
 import { createServer, type IncomingMessage, type Server, type ServerResponse } from "node:http";
 import type { AddressInfo } from "node:net";
+import { loadSpecIndex } from "../../src/netbox/spec.js";
+
+/**
+ * NetBox version reported by the mock's `/api/status/` endpoint. Derived from
+ * the bundled OpenAPI spec so it stays in sync automatically instead of drifting
+ * from a hardcoded value. Computed once per test process.
+ */
+let specVersionPromise: Promise<string> | undefined;
+function getSpecVersion(): Promise<string> {
+  specVersionPromise ??= loadSpecIndex({ specPath: undefined })
+    .then((index) => index.version.split(/\s+/)[0] || index.version)
+    .catch(() => "unknown");
+  return specVersionPromise;
+}
 
 export interface MockBranch {
   id: number;
@@ -62,6 +76,7 @@ function sendJson(res: ServerResponse, status: number, body: unknown): void {
 }
 
 export async function startMockNetbox(options: MockNetboxOptions = {}): Promise<MockNetbox> {
+  const netboxVersion = await getSpecVersion();
   const transitionDelayMs = options.transitionDelayMs ?? 50;
   const state: MockState = {
     branches: [],
@@ -180,7 +195,7 @@ export async function startMockNetbox(options: MockNetboxOptions = {}): Promise<
       }
 
       if (path === "/api/status/" && method === "GET") {
-        return sendJson(res, 200, { "netbox-version": "4.7.3", plugins: { netbox_branching: "1.2.2" } });
+        return sendJson(res, 200, { "netbox-version": netboxVersion, plugins: { netbox_branching: "1.2.2" } });
       }
 
       if (path === "/api/dcim/sites/") {

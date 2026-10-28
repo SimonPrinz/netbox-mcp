@@ -1,0 +1,160 @@
+name: Version Check
+
+on:
+  schedule:
+    - cron: "0 2 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: version-check
+  cancel-in-progress: false
+
+jobs:
+  check:
+    name: Check for a newer NetBox OpenAPI spec
+    runs-on: ubuntu-latest
+    env:
+      BRANCH: chore/netbox-openapi-update
+    steps:
+      - name: Create GitHub App token
+        id: app-token
+        uses: actions/create-github-app-token@v3
+        with:
+          client-id: ${{ vars.APP_CLIENT_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+          permission-contents: write
+          permission-pull-requests: write
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+      - name: Download latest OpenAPI spec
+        env:
+          NETBOX_HOST: ${{ secrets.NETBOX_HOST }}
+        run: |
+          set -euo pipefail
+          
+          curl -fsSL -H "Accept: application/yaml" \
+            "https://${NETBOX_HOST}/api/schema/" \
+            -o "$RUNNER_TEMP/netbox-openapi.yaml"
+      - name: Compare versions
+        id: compare
+        run: |
+          set -euo pipefail
+
+          extract_version() {
+            awk '/^info:/{seen=1} seen && /^[[:space:]]+version:/{sub(/^[[:space:]]+version:[[:space:]]*/, ""); print; exit}' "$1" \
+              | grep -oE '^[0-9]+\.[0-9]+(\.[0-9]+)?' || true
+          }
+
+          local_version="$(extract_version netbox-openapi.yaml)"
+          remote_version="$(extract_version "$RUNNER_TEMP/netbox-openapi.yaml")"
+
+          if [ -z "$local_version" ] || [ -z "$remote_version" ]; then
+            echo "::error::Could not determine the local ($local_version) or remote ($remote_version) spec version."
+            exit 1
+          fi
+
+          # Only a strictly newer version counts as an update.
+          newer=false
+          if [ "$local_version" != "$remote_version" ] && \
+             [ "$(printf '%s\n%s\n' "$local_version" "$remote_version" | sort -V | tail -n1)" = "$remote_version" ]; then
+            newer=true
+          fi
+
+          # Only act when the downloaded file actually differs from the committed one.
+          changed=false
+          cmp -s "$RUNNER_TEMP/netbox-openapi.yaml" netbox-openapi.yaml || changed=true
+
+          update_needed=false
+          if [ "$newer" = true ] && [ "$changed" = true ]; then
+            update_needed=true
+          fi
+
+          # Skip the push when the existing PR branch already holds this exact spec.
+          push_needed="$update_needed"
+          if [ "$update_needed" = true ] && git ls-remote --exit-code --heads origin "$BRANCH" >/dev/null 2>&1; then
+            git fetch --depth=1 origin "$BRANCH"
+            if git show "FETCH_HEAD:netbox-openapi.yaml" 2>/dev/null | cmp -s - "$RUNNER_TEMP/netbox-openapi.yaml"; then
+              push_needed=false
+            fi
+          fi
+
+          {
+            echo "local_version=$local_version"
+            echo "remote_version=$remote_version"
+            echo "update_needed=$update_needed"
+            echo "push_needed=$push_needed"
+          } >> "$GITHUB_OUTPUT"
+
+          echo "Committed: ${local_version} | Available: ${remote_version} | update_needed=${update_needed} | push_needed=${push_needed}"
+
+      - name: Configure git identity
+        if: steps.compare.outputs.push_needed == 'true'
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: |
+          set -euo pipefail
+          bot_id="$(gh api "/users/${{ steps.app-token.outputs.app-slug }}[bot]" --jq .id)"
+          git config user.name "${{ steps.app-token.outputs.app-slug }}[bot]"
+          git config user.email "${bot_id}+${{ steps.app-token.outputs.app-slug }}[bot]@users.noreply.github.com"
+
+      - name: Commit updated spec
+        if: steps.compare.outputs.push_needed == 'true'
+        env:
+          REMOTE_VERSION: ${{ steps.compare.outputs.remote_version }}
+        run: |
+          set -euo pipefail
+          git checkout -B "$BRANCH"
+          cp "$RUNNER_TEMP/netbox-openapi.yaml" netbox-openapi.yaml
+          git add netbox-openapi.yaml
+          git commit -m "feat: update NetBox OpenAPI spec to ${REMOTE_VERSION}"
+          git push --force origin "$BRANCH"
+
+      - name: Create or update pull request
+        if: steps.compare.outputs.update_needed == 'true'
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          LOCAL_VERSION: ${{ steps.compare.outputs.local_version }}
+          REMOTE_VERSION: ${{ steps.compare.outputs.remote_version }}
+        run: |
+          set -euo pipefail
+
+          cat > "$RUNNER_TEMP/pr-body.md" <<EOF
+          A newer NetBox OpenAPI specification is available.
+
+          | | Version |
+          | --- | --- |
+          | Committed | ${LOCAL_VERSION} |
+          | Available | ${REMOTE_VERSION} |
+
+          This PR replaces netbox-openapi.yaml with the spec downloaded from the configured
+          NetBox instance's /api/schema/ endpoint. Review the diff and let CI run before merging.
+          EOF
+
+          if gh pr view "$BRANCH" --json number --jq .number >/dev/null 2>&1; then
+            gh pr edit "$BRANCH" \
+              --title "feat: update NetBox OpenAPI spec to ${REMOTE_VERSION}" \
+              --body-file "$RUNNER_TEMP/pr-body.md"
+          else
+            gh pr create \
+              --base main \
+              --head "$BRANCH" \
+              --title "feat: update NetBox OpenAPI spec to ${REMOTE_VERSION}" \
+              --body-file "$RUNNER_TEMP/pr-body.md"
+          fi
+
+      - name: Close stale pull request
+        if: steps.compare.outputs.update_needed != 'true'
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: |
+          set -euo pipefail
+          number="$(gh pr list --head "$BRANCH" --state open --json number --jq '.[0].number // empty')"
+          if [ -n "$number" ]; then
+            gh pr close "$number" --delete-branch \
+              --comment "Closing: the committed netbox-openapi.yaml is already up to date."
+          fi

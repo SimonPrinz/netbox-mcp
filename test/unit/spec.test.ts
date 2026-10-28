@@ -89,6 +89,9 @@ describe("loadSpecIndex (bundled spec)", () => {
     expect(devices).toBeDefined();
     expect(devices!.operations.list).toBeDefined();
     expect(devices!.operations.create).toBeDefined();
-    expect(index.version).toMatch(/4\.7/);
+    // The spec version is intentionally not pinned here: it tracks whatever
+    // `netbox-openapi.yaml` currently contains, so bumping the bundled spec
+    // never requires editing this test.
+    expect(index.version).not.toBe("unknown");
   });
 });

@@ -135,8 +135,9 @@ jobs:
           NetBox instance's /api/schema/ endpoint. Review the diff and let CI run before merging.
           EOF
 
-          if gh pr view "$BRANCH" --json number --jq .number >/dev/null 2>&1; then
-            gh pr edit "$BRANCH" \
+          number="$(gh pr list --head "$BRANCH" --state open --json number --jq '.[0].number // empty')"
+          if [ -n "$number" ]; then
+            gh pr edit "$number" \
               --title "feat: update NetBox OpenAPI spec to ${REMOTE_VERSION}" \
               --body-file "$RUNNER_TEMP/pr-body.md"
           else

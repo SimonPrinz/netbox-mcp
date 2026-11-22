@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: NetBox REST API
-  version: 4.7.4 (4.7)
+  version: 4.7.5 (4.7)
   license:
     name: Apache v2 License
 paths:
@@ -19928,7 +19928,7 @@ paths:
           type: array
           items:
             type: string
-            x-spec-enum-id: 019cf94a890ea9e5
+            x-spec-enum-id: 6a87b4ee518fe970
         explode: true
         style: form
       - in: query
@@ -19941,7 +19941,7 @@ paths:
           type: array
           items:
             type: string
-            x-spec-enum-id: 019cf94a890ea9e5
+            x-spec-enum-id: 6a87b4ee518fe970
         explode: true
         style: form
       - in: query
@@ -19950,7 +19950,7 @@ paths:
           type: array
           items:
             type: string
-            x-spec-enum-id: 019cf94a890ea9e5
+            x-spec-enum-id: 6a87b4ee518fe970
         explode: true
         style: form
       - in: query
@@ -19959,7 +19959,7 @@ paths:
           type: array
           items:
             type: string
-            x-spec-enum-id: 019cf94a890ea9e5
+            x-spec-enum-id: 6a87b4ee518fe970
         explode: true
         style: form
       - in: query
@@ -19968,7 +19968,7 @@ paths:
           type: array
           items:
             type: string
-            x-spec-enum-id: 019cf94a890ea9e5
+            x-spec-enum-id: 6a87b4ee518fe970
         explode: true
         style: form
       - in: query
@@ -19977,7 +19977,7 @@ paths:
           type: array
           items:
             type: string
-            x-spec-enum-id: 019cf94a890ea9e5
+            x-spec-enum-id: 6a87b4ee518fe970
         explode: true
         style: form
       - in: query
@@ -19986,7 +19986,7 @@ paths:
           type: array
           items:
             type: string
-            x-spec-enum-id: 019cf94a890ea9e5
+            x-spec-enum-id: 6a87b4ee518fe970
         explode: true
         style: form
       - in: query
@@ -19995,7 +19995,7 @@ paths:
           type: array
           items:
             type: string
-            x-spec-enum-id: 019cf94a890ea9e5
+            x-spec-enum-id: 6a87b4ee518fe970
         explode: true
         style: form
       - in: query
@@ -20004,7 +20004,7 @@ paths:
           type: array
           items:
             type: string
-            x-spec-enum-id: 019cf94a890ea9e5
+            x-spec-enum-id: 6a87b4ee518fe970
         explode: true
         style: form
       - in: query
@@ -20013,7 +20013,7 @@ paths:
           type: array
           items:
             type: string
-            x-spec-enum-id: 019cf94a890ea9e5
+            x-spec-enum-id: 6a87b4ee518fe970
         explode: true
         style: form
       - in: query
@@ -20022,7 +20022,7 @@ paths:
           type: array
           items:
             type: string
-            x-spec-enum-id: 019cf94a890ea9e5
+            x-spec-enum-id: 6a87b4ee518fe970
         explode: true
         style: form
       - in: query
@@ -20031,7 +20031,7 @@ paths:
           type: array
           items:
             type: string
-            x-spec-enum-id: 019cf94a890ea9e5
+            x-spec-enum-id: 6a87b4ee518fe970
         explode: true
         style: form
       - in: query
@@ -148373,6 +148373,126 @@ paths:
       responses:
         '204':
           description: No response body
+  /api/plugins/ndx/catalog/:
+    get:
+      operationId: plugins_ndx_catalog_list
+      description: |-
+        Search and read the NDX catalog before importing.
+
+        Proxies the NDX API through the instance's token, so API clients can find
+        ``ndx_id`` values to pass to ``import/``.
+      parameters:
+      - in: query
+        name: brief
+        schema:
+          type: boolean
+        description: Return only brief fields for each object.
+      - in: query
+        name: fields
+        schema:
+          type: string
+        description: 'Comma-separated list of fields to include in the response. Example:
+          `fields=id,name`.'
+      - in: query
+        name: has_lifecycle
+        schema:
+          type: boolean
+      - in: query
+        name: has_thermal
+        schema:
+          type: boolean
+      - in: query
+        name: limit
+        schema:
+          type: integer
+        description: Default 50, max 200
+      - in: query
+        name: offset
+        schema:
+          type: integer
+      - in: query
+        name: omit
+        schema:
+          type: string
+        description: 'Comma-separated list of fields to exclude from the response.
+          Example: `omit=description,tags`.'
+      - in: query
+        name: q
+        schema:
+          type: string
+        description: Whitespace-separated terms, all of which must match the model,
+          manufacturer, part number or slug
+      - in: query
+        name: type
+        schema:
+          type: string
+          enum:
+          - device-type
+          - module-type
+          - rack-type
+      - in: query
+        name: vendor
+        schema:
+          type: string
+        description: Vendor slug
+      tags:
+      - plugins
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
+  /api/plugins/ndx/catalog/{ndx_id}/:
+    get:
+      operationId: plugins_ndx_catalog_retrieve
+      description: |-
+        Search and read the NDX catalog before importing.
+
+        Proxies the NDX API through the instance's token, so API clients can find
+        ``ndx_id`` values to pass to ``import/``.
+      parameters:
+      - in: query
+        name: brief
+        schema:
+          type: boolean
+        description: Return only brief fields for each object.
+      - in: query
+        name: fields
+        schema:
+          type: string
+        description: 'Comma-separated list of fields to include in the response. Example:
+          `fields=id,name`.'
+      - in: path
+        name: ndx_id
+        schema:
+          type: string
+        description: '"<vendor_slug>/<slug>", as passed to import/'
+        required: true
+      - in: query
+        name: omit
+        schema:
+          type: string
+        description: 'Comma-separated list of fields to exclude from the response.
+          Example: `omit=description,tags`.'
+      tags:
+      - plugins
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
   /api/plugins/ndx/enrichments/:
     get:
       operationId: plugins_ndx_enrichments_list
@@ -149724,6 +149844,72 @@ paths:
             type: string
         explode: true
         style: form
+      - in: query
+        name: object_id
+        schema:
+          type: array
+          items:
+            type: integer
+            format: int64
+        explode: true
+        style: form
+      - in: query
+        name: object_id__empty
+        schema:
+          type: boolean
+      - in: query
+        name: object_id__gt
+        schema:
+          type: array
+          items:
+            type: integer
+            format: int64
+        explode: true
+        style: form
+      - in: query
+        name: object_id__gte
+        schema:
+          type: array
+          items:
+            type: integer
+            format: int64
+        explode: true
+        style: form
+      - in: query
+        name: object_id__lt
+        schema:
+          type: array
+          items:
+            type: integer
+            format: int64
+        explode: true
+        style: form
+      - in: query
+        name: object_id__lte
+        schema:
+          type: array
+          items:
+            type: integer
+            format: int64
+        explode: true
+        style: form
+      - in: query
+        name: object_id__n
+        schema:
+          type: array
+          items:
+            type: integer
+            format: int64
+        explode: true
+        style: form
+      - in: query
+        name: object_type
+        schema:
+          type: string
+      - in: query
+        name: object_type__n
+        schema:
+          type: string
       - name: offset
         required: false
         in: query
@@ -193706,12 +193892,15 @@ components:
           - trunk-2c6p
           - trunk-2c8p
           - trunk-2c12p
+          - trunk-3c8p
+          - trunk-3c12p
           - trunk-4c1p
           - trunk-4c2p
           - trunk-4c4p
           - trunk-4c4p-shuffle
           - trunk-4c6p
           - trunk-4c8p
+          - trunk-4c12p
           - trunk-8c1p
           - trunk-8c4p
           - trunk-12c1p
@@ -193737,12 +193926,15 @@ components:
             * `trunk-2c6p` - 2C6P trunk
             * `trunk-2c8p` - 2C8P trunk
             * `trunk-2c12p` - 2C12P trunk
+            * `trunk-3c8p` - 3C8P trunk
+            * `trunk-3c12p` - 3C12P trunk
             * `trunk-4c1p` - 4C1P trunk
             * `trunk-4c2p` - 4C2P trunk
             * `trunk-4c4p` - 4C4P trunk
             * `trunk-4c4p-shuffle` - 4C4P trunk (shuffle)
             * `trunk-4c6p` - 4C6P trunk
             * `trunk-4c8p` - 4C8P trunk
+            * `trunk-4c12p` - 4C12P trunk
             * `trunk-8c1p` - 8C1P trunk
             * `trunk-8c4p` - 8C4P trunk
             * `trunk-12c1p` - 12C1P trunk
@@ -193752,7 +193944,7 @@ components:
             * `breakout-1c6p-6c1p` - 1C6P:6C1P breakout
             * `breakout-1c8p-8c1p` - 1C8P:8C1P breakout
             * `breakout-2c4p-8c1p-shuffle` - 2C4P:8C1P breakout (shuffle)
-          x-spec-enum-id: 019cf94a890ea9e5
+          x-spec-enum-id: 6a87b4ee518fe970
         tenant:
           oneOf:
           - type: integer
@@ -206766,12 +206958,15 @@ components:
               - trunk-2c6p
               - trunk-2c8p
               - trunk-2c12p
+              - trunk-3c8p
+              - trunk-3c12p
               - trunk-4c1p
               - trunk-4c2p
               - trunk-4c4p
               - trunk-4c4p-shuffle
               - trunk-4c6p
               - trunk-4c8p
+              - trunk-4c12p
               - trunk-8c1p
               - trunk-8c4p
               - trunk-12c1p
@@ -206797,12 +206992,15 @@ components:
                 * `trunk-2c6p` - 2C6P trunk
                 * `trunk-2c8p` - 2C8P trunk
                 * `trunk-2c12p` - 2C12P trunk
+                * `trunk-3c8p` - 3C8P trunk
+                * `trunk-3c12p` - 3C12P trunk
                 * `trunk-4c1p` - 4C1P trunk
                 * `trunk-4c2p` - 4C2P trunk
                 * `trunk-4c4p` - 4C4P trunk
                 * `trunk-4c4p-shuffle` - 4C4P trunk (shuffle)
                 * `trunk-4c6p` - 4C6P trunk
                 * `trunk-4c8p` - 4C8P trunk
+                * `trunk-4c12p` - 4C12P trunk
                 * `trunk-8c1p` - 8C1P trunk
                 * `trunk-8c4p` - 8C4P trunk
                 * `trunk-12c1p` - 12C1P trunk
@@ -206812,7 +207010,7 @@ components:
                 * `breakout-1c6p-6c1p` - 1C6P:6C1P breakout
                 * `breakout-1c8p-8c1p` - 1C8P:8C1P breakout
                 * `breakout-2c4p-8c1p-shuffle` - 2C4P:8C1P breakout (shuffle)
-              x-spec-enum-id: 019cf94a890ea9e5
+              x-spec-enum-id: 6a87b4ee518fe970
             label:
               type: string
               enum:
@@ -206830,12 +207028,15 @@ components:
               - 2C6P trunk
               - 2C8P trunk
               - 2C12P trunk
+              - 3C8P trunk
+              - 3C12P trunk
               - 4C1P trunk
               - 4C2P trunk
               - 4C4P trunk
               - 4C4P trunk (shuffle)
               - 4C6P trunk
               - 4C8P trunk
+              - 4C12P trunk
               - 8C1P trunk
               - 8C4P trunk
               - 12C1P trunk
@@ -207140,12 +207341,15 @@ components:
           - trunk-2c6p
           - trunk-2c8p
           - trunk-2c12p
+          - trunk-3c8p
+          - trunk-3c12p
           - trunk-4c1p
           - trunk-4c2p
           - trunk-4c4p
           - trunk-4c4p-shuffle
           - trunk-4c6p
           - trunk-4c8p
+          - trunk-4c12p
           - trunk-8c1p
           - trunk-8c4p
           - trunk-12c1p
@@ -207171,12 +207375,15 @@ components:
             * `trunk-2c6p` - 2C6P trunk
             * `trunk-2c8p` - 2C8P trunk
             * `trunk-2c12p` - 2C12P trunk
+            * `trunk-3c8p` - 3C8P trunk
+            * `trunk-3c12p` - 3C12P trunk
             * `trunk-4c1p` - 4C1P trunk
             * `trunk-4c2p` - 4C2P trunk
             * `trunk-4c4p` - 4C4P trunk
             * `trunk-4c4p-shuffle` - 4C4P trunk (shuffle)
             * `trunk-4c6p` - 4C6P trunk
             * `trunk-4c8p` - 4C8P trunk
+            * `trunk-4c12p` - 4C12P trunk
             * `trunk-8c1p` - 8C1P trunk
             * `trunk-8c4p` - 8C4P trunk
             * `trunk-12c1p` - 12C1P trunk
@@ -207186,7 +207393,7 @@ components:
             * `breakout-1c6p-6c1p` - 1C6P:6C1P breakout
             * `breakout-1c8p-8c1p` - 1C8P:8C1P breakout
             * `breakout-2c4p-8c1p-shuffle` - 2C4P:8C1P breakout (shuffle)
-          x-spec-enum-id: 019cf94a890ea9e5
+          x-spec-enum-id: 6a87b4ee518fe970
         tenant:
           oneOf:
           - type: integer
@@ -225971,6 +226178,16 @@ components:
         display:
           type: string
           readOnly: true
+        object_type:
+          type: string
+          readOnly: true
+        object_id:
+          type: integer
+          readOnly: true
+          format: int64
+        object:
+          readOnly: true
+          nullable: true
         ndx_id:
           type: string
           description: Stable NDX identifier ({vendor_slug}/{slug})
@@ -226036,6 +226253,9 @@ components:
       - ndx_manufacturer
       - ndx_model
       - ndx_vendor_slug
+      - object
+      - object_id
+      - object_type
       - url
     NDXImportRecordRequest:
       type: object
@@ -226093,12 +226313,8 @@ components:
           description: Dotted field path (e.g. lifecycle.ga_date)
           maxLength: 100
         source:
-          oneOf:
-          - type: string
-            format: uri
-            maxLength: 500
-          - type: string
-            maxLength: 0
+          type: string
+          maxLength: 500
         provenance_type:
           type: string
           description: vendor_datasheet, vendor_eol_bulletin, etc.
@@ -226125,12 +226341,8 @@ components:
           description: Dotted field path (e.g. lifecycle.ga_date)
           maxLength: 100
         source:
-          oneOf:
-          - type: string
-            format: uri
-            maxLength: 500
-          - type: string
-            maxLength: 0
+          type: string
+          maxLength: 500
         provenance_type:
           type: string
           description: vendor_datasheet, vendor_eol_bulletin, etc.
@@ -231929,12 +232141,15 @@ components:
           - trunk-2c6p
           - trunk-2c8p
           - trunk-2c12p
+          - trunk-3c8p
+          - trunk-3c12p
           - trunk-4c1p
           - trunk-4c2p
           - trunk-4c4p
           - trunk-4c4p-shuffle
           - trunk-4c6p
           - trunk-4c8p
+          - trunk-4c12p
           - trunk-8c1p
           - trunk-8c4p
           - trunk-12c1p
@@ -231960,12 +232175,15 @@ components:
             * `trunk-2c6p` - 2C6P trunk
             * `trunk-2c8p` - 2C8P trunk
             * `trunk-2c12p` - 2C12P trunk
+            * `trunk-3c8p` - 3C8P trunk
+            * `trunk-3c12p` - 3C12P trunk
             * `trunk-4c1p` - 4C1P trunk
             * `trunk-4c2p` - 4C2P trunk
             * `trunk-4c4p` - 4C4P trunk
             * `trunk-4c4p-shuffle` - 4C4P trunk (shuffle)
             * `trunk-4c6p` - 4C6P trunk
             * `trunk-4c8p` - 4C8P trunk
+            * `trunk-4c12p` - 4C12P trunk
             * `trunk-8c1p` - 8C1P trunk
             * `trunk-8c4p` - 8C4P trunk
             * `trunk-12c1p` - 12C1P trunk
@@ -231975,7 +232193,7 @@ components:
             * `breakout-1c6p-6c1p` - 1C6P:6C1P breakout
             * `breakout-1c8p-8c1p` - 1C8P:8C1P breakout
             * `breakout-2c4p-8c1p-shuffle` - 2C4P:8C1P breakout (shuffle)
-          x-spec-enum-id: 019cf94a890ea9e5
+          x-spec-enum-id: 6a87b4ee518fe970
         tenant:
           oneOf:
           - type: integer
@@ -247471,12 +247689,15 @@ components:
           - trunk-2c6p
           - trunk-2c8p
           - trunk-2c12p
+          - trunk-3c8p
+          - trunk-3c12p
           - trunk-4c1p
           - trunk-4c2p
           - trunk-4c4p
           - trunk-4c4p-shuffle
           - trunk-4c6p
           - trunk-4c8p
+          - trunk-4c12p
           - trunk-8c1p
           - trunk-8c4p
           - trunk-12c1p
@@ -247503,12 +247724,15 @@ components:
             * `trunk-2c6p` - 2C6P trunk
             * `trunk-2c8p` - 2C8P trunk
             * `trunk-2c12p` - 2C12P trunk
+            * `trunk-3c8p` - 3C8P trunk
+            * `trunk-3c12p` - 3C12P trunk
             * `trunk-4c1p` - 4C1P trunk
             * `trunk-4c2p` - 4C2P trunk
             * `trunk-4c4p` - 4C4P trunk
             * `trunk-4c4p-shuffle` - 4C4P trunk (shuffle)
             * `trunk-4c6p` - 4C6P trunk
             * `trunk-4c8p` - 4C8P trunk
+            * `trunk-4c12p` - 4C12P trunk
             * `trunk-8c1p` - 8C1P trunk
             * `trunk-8c4p` - 8C4P trunk
             * `trunk-12c1p` - 12C1P trunk
@@ -247518,7 +247742,7 @@ components:
             * `breakout-1c6p-6c1p` - 1C6P:6C1P breakout
             * `breakout-1c8p-8c1p` - 1C8P:8C1P breakout
             * `breakout-2c4p-8c1p-shuffle` - 2C4P:8C1P breakout (shuffle)
-          x-spec-enum-id: 019cf94a890ea9e5
+          x-spec-enum-id: 6a87b4ee518fe970
         tenant:
           oneOf:
           - type: integer
@@ -269795,12 +270019,15 @@ components:
           - trunk-2c6p
           - trunk-2c8p
           - trunk-2c12p
+          - trunk-3c8p
+          - trunk-3c12p
           - trunk-4c1p
           - trunk-4c2p
           - trunk-4c4p
           - trunk-4c4p-shuffle
           - trunk-4c6p
           - trunk-4c8p
+          - trunk-4c12p
           - trunk-8c1p
           - trunk-8c4p
           - trunk-12c1p
@@ -269827,12 +270054,15 @@ components:
             * `trunk-2c6p` - 2C6P trunk
             * `trunk-2c8p` - 2C8P trunk
             * `trunk-2c12p` - 2C12P trunk
+            * `trunk-3c8p` - 3C8P trunk
+            * `trunk-3c12p` - 3C12P trunk
             * `trunk-4c1p` - 4C1P trunk
             * `trunk-4c2p` - 4C2P trunk
             * `trunk-4c4p` - 4C4P trunk
             * `trunk-4c4p-shuffle` - 4C4P trunk (shuffle)
             * `trunk-4c6p` - 4C6P trunk
             * `trunk-4c8p` - 4C8P trunk
+            * `trunk-4c12p` - 4C12P trunk
             * `trunk-8c1p` - 8C1P trunk
             * `trunk-8c4p` - 8C4P trunk
             * `trunk-12c1p` - 12C1P trunk
@@ -269842,7 +270072,7 @@ components:
             * `breakout-1c6p-6c1p` - 1C6P:6C1P breakout
             * `breakout-1c8p-8c1p` - 1C8P:8C1P breakout
             * `breakout-2c4p-8c1p-shuffle` - 2C4P:8C1P breakout (shuffle)
-          x-spec-enum-id: 019cf94a890ea9e5
+          x-spec-enum-id: 6a87b4ee518fe970
         tenant:
           oneOf:
           - type: integer

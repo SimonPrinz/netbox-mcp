@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: NetBox REST API
-  version: 4.7.5 (4.7)
+  version: 4.7.6 (4.7)
   license:
     name: Apache v2 License
 paths:
@@ -106905,87 +106905,7 @@ paths:
         explode: true
         style: form
       - in: query
-        name: object_type__ic
-        schema:
-          type: array
-          items:
-            type: string
-        explode: true
-        style: form
-      - in: query
-        name: object_type__ie
-        schema:
-          type: array
-          items:
-            type: string
-        explode: true
-        style: form
-      - in: query
-        name: object_type__iew
-        schema:
-          type: array
-          items:
-            type: string
-        explode: true
-        style: form
-      - in: query
-        name: object_type__iregex
-        schema:
-          type: array
-          items:
-            type: string
-        explode: true
-        style: form
-      - in: query
-        name: object_type__isw
-        schema:
-          type: array
-          items:
-            type: string
-        explode: true
-        style: form
-      - in: query
         name: object_type__n
-        schema:
-          type: array
-          items:
-            type: string
-        explode: true
-        style: form
-      - in: query
-        name: object_type__nic
-        schema:
-          type: array
-          items:
-            type: string
-        explode: true
-        style: form
-      - in: query
-        name: object_type__nie
-        schema:
-          type: array
-          items:
-            type: string
-        explode: true
-        style: form
-      - in: query
-        name: object_type__niew
-        schema:
-          type: array
-          items:
-            type: string
-        explode: true
-        style: form
-      - in: query
-        name: object_type__nisw
-        schema:
-          type: array
-          items:
-            type: string
-        explode: true
-        style: form
-      - in: query
-        name: object_type__regex
         schema:
           type: array
           items:
@@ -108967,87 +108887,7 @@ paths:
         explode: true
         style: form
       - in: query
-        name: object_type__ic
-        schema:
-          type: array
-          items:
-            type: string
-        explode: true
-        style: form
-      - in: query
-        name: object_type__ie
-        schema:
-          type: array
-          items:
-            type: string
-        explode: true
-        style: form
-      - in: query
-        name: object_type__iew
-        schema:
-          type: array
-          items:
-            type: string
-        explode: true
-        style: form
-      - in: query
-        name: object_type__iregex
-        schema:
-          type: array
-          items:
-            type: string
-        explode: true
-        style: form
-      - in: query
-        name: object_type__isw
-        schema:
-          type: array
-          items:
-            type: string
-        explode: true
-        style: form
-      - in: query
         name: object_type__n
-        schema:
-          type: array
-          items:
-            type: string
-        explode: true
-        style: form
-      - in: query
-        name: object_type__nic
-        schema:
-          type: array
-          items:
-            type: string
-        explode: true
-        style: form
-      - in: query
-        name: object_type__nie
-        schema:
-          type: array
-          items:
-            type: string
-        explode: true
-        style: form
-      - in: query
-        name: object_type__niew
-        schema:
-          type: array
-          items:
-            type: string
-        explode: true
-        style: form
-      - in: query
-        name: object_type__nisw
-        schema:
-          type: array
-          items:
-            type: string
-        explode: true
-        style: form
-      - in: query
-        name: object_type__regex
         schema:
           type: array
           items:
@@ -110269,87 +110109,7 @@ paths:
         explode: true
         style: form
       - in: query
-        name: object_type__ic
-        schema:
-          type: array
-          items:
-            type: string
-        explode: true
-        style: form
-      - in: query
-        name: object_type__ie
-        schema:
-          type: array
-          items:
-            type: string
-        explode: true
-        style: form
-      - in: query
-        name: object_type__iew
-        schema:
-          type: array
-          items:
-            type: string
-        explode: true
-        style: form
-      - in: query
-        name: object_type__iregex
-        schema:
-          type: array
-          items:
-            type: string
-        explode: true
-        style: form
-      - in: query
-        name: object_type__isw
-        schema:
-          type: array
-          items:
-            type: string
-        explode: true
-        style: form
-      - in: query
         name: object_type__n
-        schema:
-          type: array
-          items:
-            type: string
-        explode: true
-        style: form
-      - in: query
-        name: object_type__nic
-        schema:
-          type: array
-          items:
-            type: string
-        explode: true
-        style: form
-      - in: query
-        name: object_type__nie
-        schema:
-          type: array
-          items:
-            type: string
-        explode: true
-        style: form
-      - in: query
-        name: object_type__niew
-        schema:
-          type: array
-          items:
-            type: string
-        explode: true
-        style: form
-      - in: query
-        name: object_type__nisw
-        schema:
-          type: array
-          items:
-            type: string
-        explode: true
-        style: form
-      - in: query
-        name: object_type__regex
         schema:
           type: array
           items:
@@ -111680,87 +111440,7 @@ paths:
         explode: true
         style: form
       - in: query
-        name: object_type__ic
-        schema:
-          type: array
-          items:
-            type: string
-        explode: true
-        style: form
-      - in: query
-        name: object_type__ie
-        schema:
-          type: array
-          items:
-            type: string
-        explode: true
-        style: form
-      - in: query
-        name: object_type__iew
-        schema:
-          type: array
-          items:
-            type: string
-        explode: true
-        style: form
-      - in: query
-        name: object_type__iregex
-        schema:
-          type: array
-          items:
-            type: string
-        explode: true
-        style: form
-      - in: query
-        name: object_type__isw
-        schema:
-          type: array
-          items:
-            type: string
-        explode: true
-        style: form
-      - in: query
         name: object_type__n
-        schema:
-          type: array
-          items:
-            type: string
-        explode: true
-        style: form
-      - in: query
-        name: object_type__nic
-        schema:
-          type: array
-          items:
-            type: string
-        explode: true
-        style: form
-      - in: query
-        name: object_type__nie
-        schema:
-          type: array
-          items:
-            type: string
-        explode: true
-        style: form
-      - in: query
-        name: object_type__niew
-        schema:
-          type: array
-          items:
-            type: string
-        explode: true
-        style: form
-      - in: query
-        name: object_type__nisw
-        schema:
-          type: array
-          items:
-            type: string
-        explode: true
-        style: form
-      - in: query
-        name: object_type__regex
         schema:
           type: array
           items:
@@ -115221,87 +114901,7 @@ paths:
         explode: true
         style: form
       - in: query
-        name: object_type__ic
-        schema:
-          type: array
-          items:
-            type: string
-        explode: true
-        style: form
-      - in: query
-        name: object_type__ie
-        schema:
-          type: array
-          items:
-            type: string
-        explode: true
-        style: form
-      - in: query
-        name: object_type__iew
-        schema:
-          type: array
-          items:
-            type: string
-        explode: true
-        style: form
-      - in: query
-        name: object_type__iregex
-        schema:
-          type: array
-          items:
-            type: string
-        explode: true
-        style: form
-      - in: query
-        name: object_type__isw
-        schema:
-          type: array
-          items:
-            type: string
-        explode: true
-        style: form
-      - in: query
         name: object_type__n
-        schema:
-          type: array
-          items:
-            type: string
-        explode: true
-        style: form
-      - in: query
-        name: object_type__nic
-        schema:
-          type: array
-          items:
-            type: string
-        explode: true
-        style: form
-      - in: query
-        name: object_type__nie
-        schema:
-          type: array
-          items:
-            type: string
-        explode: true
-        style: form
-      - in: query
-        name: object_type__niew
-        schema:
-          type: array
-          items:
-            type: string
-        explode: true
-        style: form
-      - in: query
-        name: object_type__nisw
-        schema:
-          type: array
-          items:
-            type: string
-        explode: true
-        style: form
-      - in: query
-        name: object_type__regex
         schema:
           type: array
           items:
@@ -159862,87 +159462,7 @@ paths:
         explode: true
         style: form
       - in: query
-        name: object_type__ic
-        schema:
-          type: array
-          items:
-            type: string
-        explode: true
-        style: form
-      - in: query
-        name: object_type__ie
-        schema:
-          type: array
-          items:
-            type: string
-        explode: true
-        style: form
-      - in: query
-        name: object_type__iew
-        schema:
-          type: array
-          items:
-            type: string
-        explode: true
-        style: form
-      - in: query
-        name: object_type__iregex
-        schema:
-          type: array
-          items:
-            type: string
-        explode: true
-        style: form
-      - in: query
-        name: object_type__isw
-        schema:
-          type: array
-          items:
-            type: string
-        explode: true
-        style: form
-      - in: query
         name: object_type__n
-        schema:
-          type: array
-          items:
-            type: string
-        explode: true
-        style: form
-      - in: query
-        name: object_type__nic
-        schema:
-          type: array
-          items:
-            type: string
-        explode: true
-        style: form
-      - in: query
-        name: object_type__nie
-        schema:
-          type: array
-          items:
-            type: string
-        explode: true
-        style: form
-      - in: query
-        name: object_type__niew
-        schema:
-          type: array
-          items:
-            type: string
-        explode: true
-        style: form
-      - in: query
-        name: object_type__nisw
-        schema:
-          type: array
-          items:
-            type: string
-        explode: true
-        style: form
-      - in: query
-        name: object_type__regex
         schema:
           type: array
           items:
@@ -206517,7 +206037,8 @@ components:
           type: string
           nullable: true
           description: The specific CA certificate file to use for SSL verification.
-            Leave blank to use the system defaults.
+            If blank, verification uses NetBox's built-in CA bundle, not the system
+            trust store. A private CA must be specified here.
           maxLength: 4096
         timeout:
           type: integer
@@ -244430,7 +243951,8 @@ components:
           type: string
           nullable: true
           description: The specific CA certificate file to use for SSL verification.
-            Leave blank to use the system defaults.
+            If blank, verification uses NetBox's built-in CA bundle, not the system
+            trust store. A private CA must be specified here.
           maxLength: 4096
         timeout:
           type: integer
@@ -247484,7 +247006,8 @@ components:
           type: string
           nullable: true
           description: The specific CA certificate file to use for SSL verification.
-            Leave blank to use the system defaults.
+            If blank, verification uses NetBox's built-in CA bundle, not the system
+            trust store. A private CA must be specified here.
           maxLength: 4096
         timeout:
           type: integer
@@ -269045,7 +268568,8 @@ components:
           type: string
           nullable: true
           description: The specific CA certificate file to use for SSL verification.
-            Leave blank to use the system defaults.
+            If blank, verification uses NetBox's built-in CA bundle, not the system
+            trust store. A private CA must be specified here.
           maxLength: 4096
         timeout:
           type: integer
@@ -269153,7 +268677,8 @@ components:
           type: string
           nullable: true
           description: The specific CA certificate file to use for SSL verification.
-            Leave blank to use the system defaults.
+            If blank, verification uses NetBox's built-in CA bundle, not the system
+            trust store. A private CA must be specified here.
           maxLength: 4096
         timeout:
           type: integer

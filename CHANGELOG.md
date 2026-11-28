@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.0](https://github.com/SimonPrinz/netbox-mcp/compare/v1.3.0...v1.4.0) (2026-11-28)
+
+
+### Features
+
+* update NetBox OpenAPI spec to 4.7.6 ([#13](https://github.com/SimonPrinz/netbox-mcp/issues/13)) ([26ed672](https://github.com/SimonPrinz/netbox-mcp/commit/26ed6727f31cb0b32db38e67a28c14c2e5bec0b3))
+
 ## [1.3.0](https://github.com/SimonPrinz/netbox-mcp/compare/v1.2.0...v1.3.0) (2026-11-24)
 
 
